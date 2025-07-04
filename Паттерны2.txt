@@ -1,0 +1,76 @@
+готовое самое нижнее изображение
+
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 44.44%; /* Пропорции 612/272 = 0.4444 */
+  overflow: hidden;
+}
+
+.clipped-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+  /* Основное свойство */
+  clip-path: path('M0.2851 0.0974 L0.4110 0.0441 L0.4477 -0.0018 H1.0008 V1.0018 H0.0016 V0.8474 L0.1120 0.7500 L0.2141 0.5533 V0.2812 L0.2851 0.0974 Z');
+  
+  /* Для поддержки Safari и iOS */
+  -webkit-clip-path: path('M0.2851 0.0974 L0.4110 0.0441 L0.4477 -0.0018 H1.0008 V1.0018 H0.0016 V0.8474 L0.1120 0.7500 L0.2141 0.5533 V0.2812 L0.2851 0.0974 Z');
+}
+
+
+Для банера
+---------------------------------------------------------------------------------------
+
+<svg width="612" height="272" viewBox="0 0 612 272" fill="none" 
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Определяем путь для клип-пата и переиспользуем его -->
+  <defs>
+    <path id="shape" d="M174.5 26.5L251.5 12L274 -0.5H612.5V272.5H1V230.5L68.5 204L131 150.5V76.5L174.5 26.5Z" />
+    <clipPath id="image-clip">
+      <use xlink:href="#shape" />
+    </clipPath>
+  </defs>
+  
+  <!-- Фон (необязательно) -->
+  <use xlink:href="#shape" fill="#252628" />
+  
+  <!-- Обрезанное изображение -->
+  <image 
+    clip-path="url(#image-clip)" 
+    xlink:href="data:image/jpeg;base64,/9j/4AA..." 
+    width="612" 
+    height="272"
+    preserveAspectRatio="none"
+  />
+  
+  <!-- Обводка поверх изображения -->
+  <use xlink:href="#shape" fill="none" stroke="black" />
+</svg>
+
+
+
+
+для наша аудитория
+<svg width="328" height="256" viewBox="0 0 328 256" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Определяем путь для обрезки -->
+  <defs>
+    <clipPath id="clip-shape">
+      <path d="M293.5 43.5L328 3V-8L-2.5 -2V257H125.5V221.5L174 193L255.5 153.5L293.5 122V43.5Z" />
+    </clipPath>
+  </defs>
+  
+  <!-- Обрезанное изображение -->
+  <g clip-path="url(#clip-shape)">
+    <!-- Замените href на путь/данные вашего изображения -->
+    <image href="your-image.jpg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"/>
+  </g>
+  
+  <!-- Обводка контура (опционально) -->
+  <path d="M293.5 43.5L328 3V-8L-2.5 -2V257H125.5V221.5L174 193L255.5 153.5L293.5 122V43.5Z" stroke="black" fill="none"/>
+</svg>
+
