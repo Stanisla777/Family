@@ -1,0 +1,59 @@
+<style>
+  .parent-item.extra {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 
+      max-height 0.5s ease,
+      opacity 0.5s ease,
+      margin 0.5s ease;
+  }
+  
+  .parent-item.extra.revealed {
+    max-height: 1000px; /* Достаточно большое значение */
+    opacity: 1;
+    margin-top: 10px; /* Пример отступа, замените на ваш */
+    margin-bottom: 10px;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const parent = document.querySelector('.parent');
+  const btn = document.querySelector('.btn');
+  const items = document.querySelectorAll('.parent-item');
+  
+  // Проверка количества элементов
+  if (items.length <= 5) {
+    btn.style.display = 'none';
+  } else {
+    // Скрываем элементы сверх 5-го
+    items.forEach((item, index) => {
+      if (index >= 5) {
+        item.classList.add('extra');
+      }
+    });
+    btn.style.display = 'block';
+  }
+
+  // Обработчик клика на кнопку
+  btn.addEventListener('click', () => {
+    const hiddenItems = document.querySelectorAll('.parent-item.extra:not(.revealed)');
+    
+    hiddenItems.forEach(item => {
+      item.classList.add('revealed');
+    });
+
+    // Скрываем кнопку после раскрытия
+    btn.style.display = 'none';
+  });
+
+  // Обработчики для вложенных аккордеонов (примерная реализация)
+  document.querySelectorAll('.parent-item .accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+});
+</script>
