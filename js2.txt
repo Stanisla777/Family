@@ -1,0 +1,75 @@
+<style>
+  .parent-item.hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    display: block; /* Важно для анимации */
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+  }
+
+  .btn {
+    display: none;
+    margin-top: 15px;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const parent = document.querySelector('.parent');
+  const btn = document.querySelector('.btn');
+  
+  if (!parent || !btn) return;
+  
+  const items = parent.querySelectorAll('.parent-item');
+  
+  // Если элементов 5 или меньше - скрываем кнопку
+  if (items.length <= 5) {
+    btn.style.display = 'none';
+    return;
+  }
+  
+  // Скрываем элементы, начиная с 6-го
+  items.forEach((item, index) => {
+    if (index >= 5) {
+      item.classList.add('hidden');
+    }
+  });
+  
+  // Показываем кнопку
+  btn.style.display = 'block';
+  
+  // Обработчик клика на кнопку
+  btn.addEventListener('click', () => {
+    const hiddenItems = parent.querySelectorAll('.parent-item.hidden');
+    
+    hiddenItems.forEach(item => {
+      // Сохраняем оригинальную высоту для плавной анимации
+      const originalHeight = item.scrollHeight;
+      
+      // Временные стили для анимации
+      item.style.maxHeight = '0';
+      item.style.opacity = '0';
+      item.style.display = 'block';
+      item.classList.remove('hidden');
+      
+      // Запуск анимации
+      requestAnimationFrame(() => {
+        item.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+        item.style.maxHeight = `${originalHeight}px`;
+        item.style.opacity = '1';
+      });
+      
+      // Очистка после анимации
+      item.addEventListener('transitionend', () => {
+        item.style.transition = '';
+        item.style.maxHeight = '';
+        item.style.opacity = '';
+        item.style.display = '';
+      }, { once: true });
+    });
+    
+    // Скрываем кнопку после раскрытия
+    btn.style.display = 'none';
+  });
+});
+</script>
